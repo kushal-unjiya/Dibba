@@ -1,0 +1,433 @@
+{
+  "users": [
+    {
+      "id": "c1",
+      "name": "Rahul Sharma",
+      "email": "rahul@example.com",
+      "phone": "9876543210",
+      "role": "customer",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/men/1.jpg",
+      "createdAt": "2023-01-05T10:30:00.000Z",
+      "addresses": [
+        {
+          "id": "a1",
+          "street": "123 Main Street",
+          "city": "Mumbai",
+          "state": "Maharashtra",
+          "postalCode": "400001",
+          "default": true
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "name": "Priya Patel",
+      "email": "priya@example.com",
+      "phone": "8765432109",
+      "role": "customer",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/women/2.jpg",
+      "createdAt": "2023-02-15T14:20:00.000Z",
+      "addresses": [
+        {
+          "id": "a2",
+          "street": "456 Park Avenue",
+          "city": "Delhi",
+          "state": "Delhi",
+          "postalCode": "110001",
+          "default": true
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "name": "Ajay Kumar",
+      "email": "ajay@example.com",
+      "phone": "7654321098",
+      "role": "customer",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/men/3.jpg",
+      "createdAt": "2023-03-20T09:15:00.000Z",
+      "addresses": [
+        {
+          "id": "a3",
+          "street": "789 Sector 10",
+          "city": "Chandigarh",
+          "state": "Chandigarh",
+          "postalCode": "160011",
+          "default": true
+        }
+      ]
+    },
+    {
+      "id": "h1",
+      "name": "Sunita Devi",
+      "email": "sunita@example.com",
+      "phone": "9876123450",
+      "role": "homemaker",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/women/4.jpg",
+      "kitchenName": "Sunita's Kitchen",
+      "createdAt": "2022-12-10T08:45:00.000Z",
+      "address": {
+        "street": "10 Food Lane",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "postalCode": "400002"
+      },
+      "rating": 4.8,
+      "isActive": true,
+      "specialties": ["North Indian", "Thali"],
+      "bio": "Cooking delicious home food for 15 years"
+    },
+    {
+      "id": "h2",
+      "name": "Ramesh Iyer",
+      "email": "ramesh@example.com",
+      "phone": "8765123409",
+      "role": "homemaker",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/men/5.jpg",
+      "kitchenName": "South Indian Delights",
+      "createdAt": "2023-01-20T11:30:00.000Z",
+      "address": {
+        "street": "22 Dosa Street",
+        "city": "Bangalore",
+        "state": "Karnataka",
+        "postalCode": "560001"
+      },
+      "rating": 4.7,
+      "isActive": true,
+      "specialties": ["South Indian", "Idli", "Dosa"],
+      "bio": "Authentic South Indian recipes passed down generations"
+    },
+    {
+      "id": "h3",
+      "name": "Anjali Gupta",
+      "email": "anjali@example.com",
+      "phone": "7655432198",
+      "role": "homemaker",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/women/6.jpg",
+      "kitchenName": "Healthy Bites",
+      "createdAt": "2023-02-05T13:15:00.000Z",
+      "address": {
+        "street": "45 Health Avenue",
+        "city": "Delhi",
+        "state": "Delhi",
+        "postalCode": "110005"
+      },
+      "rating": 4.5,
+      "isActive": true,
+      "specialties": ["Salads", "Protein Bowls", "Veg"],
+      "bio": "Nutritious and delicious meals for the health conscious"
+    },
+    {
+      "id": "d1",
+      "name": "Vikram Singh",
+      "email": "vikram@example.com",
+      "phone": "9876543211",
+      "role": "delivery",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/men/7.jpg",
+      "createdAt": "2023-01-15T10:00:00.000Z",
+      "isAvailable": true,
+      "vehicle": "Motorcycle",
+      "vehicleNumber": "MH01AB1234",
+      "rating": 4.7,
+      "deliveriesCompleted": 152
+    },
+    {
+      "id": "d2",
+      "name": "Deepak Kumar",
+      "email": "deepak@example.com",
+      "phone": "8765432100",
+      "role": "delivery",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/men/8.jpg",
+      "createdAt": "2023-02-10T09:30:00.000Z",
+      "isAvailable": true,
+      "vehicle": "Bicycle",
+      "vehicleNumber": "DL02CD5678",
+      "rating": 4.6,
+      "deliveriesCompleted": 98
+    },
+    {
+      "id": "d3",
+      "name": "Rajesh Verma",
+      "email": "rajesh@example.com",
+      "phone": "7654321099",
+      "role": "delivery",
+      "profilePictureUrl": "https://randomuser.me/api/portraits/men/9.jpg",
+      "createdAt": "2023-03-05T11:20:00.000Z",
+      "isAvailable": true,
+      "vehicle": "Motorcycle",
+      "vehicleNumber": "KA03EF9012",
+      "rating": 4.8,
+      "deliveriesCompleted": 205
+    }
+  ],
+  "meals": [
+    {
+      "id": "m1",
+      "name": "Special Thali",
+      "description": "A complete meal with dal, rice, 2 sabzis, roti, salad, and papad.",
+      "price": 150,
+      "image": "https://via.placeholder.com/300x200/FCD34D/000000?text=Special+Thali",
+      "category": "Thali",
+      "isAvailable": true,
+      "homemakerId": "h1",
+      "rating": 4.5,
+      "reviews": 24,
+      "dietaryInfo": ["Veg"]
+    },
+    {
+      "id": "m2",
+      "name": "Paneer Butter Masala",
+      "description": "Creamy and delicious paneer in a rich tomato gravy.",
+      "price": 120,
+      "image": "https://via.placeholder.com/300x200/FCA5A5/000000?text=Paneer+Butter",
+      "category": "North Indian",
+      "dietary": "Veg",
+      "isAvailable": true,
+      "homemakerId": "h1",
+      "rating": 4.7,
+      "reviews": 32,
+      "dietaryInfo": ["Veg"]
+    },
+    {
+      "id": "m3",
+      "name": "Chicken Biryani",
+      "description": "Aromatic and flavorful biryani with tender chicken pieces.",
+      "price": 180,
+      "image": "https://via.placeholder.com/300x200/93C5FD/000000?text=Chicken+Biryani",
+      "category": "North Indian",
+      "dietary": "Non-Veg",
+      "isAvailable": true,
+      "homemakerId": "h1",
+      "rating": 4.8,
+      "reviews": 45,
+      "dietaryInfo": ["Non-Veg"]
+    },
+    {
+      "id": "m4",
+      "name": "Masala Dosa",
+      "description": "Crispy dosa with potato filling served with sambhar and chutney.",
+      "price": 80,
+      "image": "https://via.placeholder.com/300x200/A7F3D0/000000?text=Masala+Dosa",
+      "category": "South Indian",
+      "dietary": "Veg",
+      "isAvailable": true,
+      "homemakerId": "h2",
+      "rating": 4.6,
+      "reviews": 38,
+      "dietaryInfo": ["Veg"]
+    },
+    {
+      "id": "m5",
+      "name": "Idli Sambar",
+      "description": "Soft idlis served with tangy sambar and coconut chutney.",
+      "price": 60,
+      "image": "https://via.placeholder.com/300x200/BFDBFE/000000?text=Idli+Sambar",
+      "category": "South Indian",
+      "dietary": "Veg",
+      "isAvailable": true,
+      "homemakerId": "h2",
+      "rating": 4.4,
+      "reviews": 29,
+      "dietaryInfo": ["Veg"]
+    },
+    {
+      "id": "m6",
+      "name": "Veg Pulao",
+      "description": "Flavorful rice cooked with mixed vegetables and spices.",
+      "price": 100,
+      "image": "https://via.placeholder.com/300x200/DDD6FE/000000?text=Veg+Pulao",
+      "category": "North Indian",
+      "dietary": "Veg",
+      "isAvailable": true,
+      "homemakerId": "h1",
+      "rating": 4.3,
+      "reviews": 22,
+      "dietaryInfo": ["Veg"]
+    },
+    {
+      "id": "m7",
+      "name": "Quinoa Salad Bowl",
+      "description": "Nutritious quinoa with fresh vegetables and a light dressing.",
+      "price": 160,
+      "image": "https://via.placeholder.com/300x200/86EFAC/000000?text=Quinoa+Salad",
+      "category": "Healthy",
+      "dietary": "Veg",
+      "isAvailable": true,
+      "homemakerId": "h3",
+      "rating": 4.5,
+      "reviews": 18,
+      "dietaryInfo": ["Veg", "Healthy", "Gluten-Free"]
+    },
+    {
+      "id": "m8",
+      "name": "Protein Power Bowl",
+      "description": "Grilled chicken with avocado, eggs, and leafy greens.",
+      "price": 180,
+      "image": "https://via.placeholder.com/300x200/FDE68A/000000?text=Protein+Bowl",
+      "category": "Healthy",
+      "dietary": "Non-Veg",
+      "isAvailable": true,
+      "homemakerId": "h3",
+      "rating": 4.6,
+      "reviews": 14,
+      "dietaryInfo": ["Non-Veg", "Healthy", "Keto"]
+    },
+    {
+      "id": "m9",
+      "name": "Vegetable Upma",
+      "description": "Savory semolina dish with vegetables and curry leaves.",
+      "price": 70,
+      "image": "https://via.placeholder.com/300x200/FCA5A5/000000?text=Veg+Upma",
+      "category": "South Indian",
+      "dietary": "Veg",
+      "isAvailable": true,
+      "homemakerId": "h2",
+      "rating": 4.2,
+      "reviews": 11,
+      "dietaryInfo": ["Veg"]
+    }
+  ],
+  "orders": [
+    {
+      "id": "o1",
+      "customerId": "c1",
+      "homemakerId": "h1",
+      "deliveryPartnerId": "d1",
+      "items": [
+        {
+          "mealId": "m1",
+          "quantity": 2,
+          "price": 150
+        },
+        {
+          "mealId": "m2",
+          "quantity": 1,
+          "price": 120
+        }
+      ],
+      "totalAmount": 420,
+      "deliveryFee": 30,
+      "status": "delivered",
+      "paymentStatus": "paid",
+      "paymentMethod": "upi",
+      "orderDate": "2023-04-20T12:30:00.000Z",
+      "deliveryDate": "2023-04-20T13:15:00.000Z",
+      "rating": 5,
+      "review": "Food was amazing and delivery was quick!",
+      "deliveryAddress": {
+        "street": "123 Main Street",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "postalCode": "400001"
+      }
+    },
+    {
+      "id": "o2",
+      "customerId": "c2",
+      "homemakerId": "h2",
+      "deliveryPartnerId": "d2",
+      "items": [
+        {
+          "mealId": "m4",
+          "quantity": 3,
+          "price": 80
+        },
+        {
+          "mealId": "m5",
+          "quantity": 2,
+          "price": 60
+        }
+      ],
+      "totalAmount": 360,
+      "deliveryFee": 30,
+      "status": "delivered",
+      "paymentStatus": "paid",
+      "paymentMethod": "card",
+      "orderDate": "2023-04-21T18:45:00.000Z",
+      "deliveryDate": "2023-04-21T19:30:00.000Z",
+      "rating": 4,
+      "review": "Dosas were crispy and delicious!",
+      "deliveryAddress": {
+        "street": "456 Park Avenue",
+        "city": "Delhi",
+        "state": "Delhi",
+        "postalCode": "110001"
+      }
+    },
+    {
+      "id": "o3",
+      "customerId": "c3",
+      "homemakerId": "h3",
+      "deliveryPartnerId": "d3",
+      "items": [
+        {
+          "mealId": "m7",
+          "quantity": 1,
+          "price": 160
+        },
+        {
+          "mealId": "m8",
+          "quantity": 1,
+          "price": 180
+        }
+      ],
+      "totalAmount": 370,
+      "deliveryFee": 30,
+      "status": "preparing",
+      "paymentStatus": "paid",
+      "paymentMethod": "upi",
+      "orderDate": "2023-04-22T13:00:00.000Z",
+      "deliveryDate": null,
+      "rating": null,
+      "review": null,
+      "deliveryAddress": {
+        "street": "789 Sector 10",
+        "city": "Chandigarh",
+        "state": "Chandigarh",
+        "postalCode": "160011"
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "id": "r1",
+      "customerId": "c1",
+      "homemakerId": "h1",
+      "orderId": "o1",
+      "mealId": "m1",
+      "rating": 5,
+      "comment": "The thali was absolutely delicious! Perfect spice level and generous portions.",
+      "date": "2023-04-20T14:30:00.000Z"
+    },
+    {
+      "id": "r2",
+      "customerId": "c1",
+      "homemakerId": "h1",
+      "orderId": "o1",
+      "mealId": "m2",
+      "rating": 4,
+      "comment": "Paneer was soft and the gravy was rich. Could use a bit more spice though.",
+      "date": "2023-04-20T14:35:00.000Z"
+    },
+    {
+      "id": "r3",
+      "customerId": "c2",
+      "homemakerId": "h2",
+      "orderId": "o2",
+      "mealId": "m4",
+      "rating": 5,
+      "comment": "Best masala dosa I've had in a long time! Crispy outside and perfect potato filling.",
+      "date": "2023-04-21T20:15:00.000Z"
+    },
+    {
+      "id": "r4",
+      "customerId": "c2",
+      "homemakerId": "h2",
+      "orderId": "o2",
+      "mealId": "m5",
+      "rating": 4,
+      "comment": "Idlis were soft and fluffy. The sambar was a bit too tangy for my taste.",
+      "date": "2023-04-21T20:20:00.000Z"
+    }
+  ]
+}

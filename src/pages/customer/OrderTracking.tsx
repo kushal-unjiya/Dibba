@@ -5,17 +5,6 @@ import { Order, OrderStatus } from '../../interfaces/Order'; // Adjust path
 
 // Mock Data - Replace with API call based on orderId
 const fetchMockOrder = (id: string): Promise<Order> => {
-    console.log("Fetching mock order for ID:", id);
-    // Simulate different statuses based on ID or random chance
-    let status: OrderStatus = 'Pending Confirmation';
-    const rand = Math.random();
-    if (rand > 0.2) status = 'Confirmed';
-    if (rand > 0.4) status = 'Preparing';
-    if (rand > 0.6) status = 'Ready for Pickup';
-    if (rand > 0.8) status = 'Out for Delivery';
-    // if (rand > 0.9) status = 'Delivered'; // Less likely for active tracking
-    // if (id.includes('fail')) status = 'Cancelled'; // Example failure case
-
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve({
@@ -23,13 +12,16 @@ const fetchMockOrder = (id: string): Promise<Order> => {
                 customerId: 'cust123',
                 homemakerId: 'hm123',
                 items: [{ mealId: 'm1', quantity: 1, price: 150 }],
-                totalAmount: 180, // Including delivery
-                status: status,
-                orderDate: new Date(Date.now() - 3600 * 1000), // 1 hour ago
+                totalAmount: 180,
+                status: 'Out for Delivery',
+                orderDate: new Date(Date.now() - 3600 * 1000),
                 deliveryAddress: { street: '456 Oak Ave', city: 'Otherville', postalCode: '67890' },
                 paymentMethod: 'UPI',
                 paymentStatus: 'Completed',
-                estimatedDeliveryTime: new Date(Date.now() + 3600 * 1000), // 1 hour from now
+                estimatedDeliveryTime: new Date(Date.now() + 3600 * 1000),
+                deliveryPartnerId: 'dp123',
+                deliveryPartnerName: 'John Delivery',
+                deliveryPartnerPhone: '555-0123'
             });
         }, 500);
     });
@@ -77,9 +69,23 @@ const OrderTracking: React.FC = () => {
       setIsLoading(true);
       setError(null);
       try {
-        // TODO: Replace with actual API call
         const fetchedOrder = await fetchMockOrder(orderId);
         setOrder(fetchedOrder);
+
+        // Set up real-time updates polling
+        // In a real app, this would use WebSocket instead of polling
+        const pollInterval = setInterval(async () => {
+            try {
+                const updatedOrder = await fetchMockOrder(orderId);
+                if (updatedOrder.status !== fetchedOrder.status) {
+                    setOrder(updatedOrder);
+                }
+            } catch (err) {
+                console.error("Failed to poll order updates:", err);
+            }
+        }, 10000); // Poll every 10 seconds
+
+        return () => clearInterval(pollInterval);
       } catch (err) {
         console.error("Failed to fetch order:", err);
         setError("Failed to load order details.");
@@ -89,10 +95,6 @@ const OrderTracking: React.FC = () => {
     };
 
     fetchOrder();
-
-    // Optional: Set up polling or WebSocket for real-time updates
-    // const intervalId = setInterval(fetchOrder, 30000); // Poll every 30 seconds
-    // return () => clearInterval(intervalId); // Cleanup on unmount
 
   }, [orderId]);
 
@@ -112,37 +114,51 @@ const OrderTracking: React.FC = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4">Track Order #{order.id.substring(0, 8)}...</h1>
-      <p className="text-gray-600 mb-6">Status updated as of: {new Date().toLocaleTimeString()}</p>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Order Timeline */}
-        <div className="md:col-span-2">
-          <OrderTimeline events={timelineEvents} currentStatus={order.status} />
-        </div>
-
-        {/* Order Summary & Map Placeholder */}
-        <div className="space-y-6">
-          <div className="border rounded-lg p-4 bg-white shadow">
-            <h2 className="text-lg font-semibold mb-2">Order Summary</h2>
-            <p className="text-sm"><strong>Total Items:</strong> {order.items.reduce((sum, item) => sum + item.quantity, 0)}</p>
-            <p className="text-sm"><strong>Total Amount:</strong> ₹{order.totalAmount.toFixed(2)}</p>
-            <p className="text-sm"><strong>Estimated Delivery:</strong> {order.estimatedDeliveryTime ? new Date(order.estimatedDeliveryTime).toLocaleTimeString() : 'N/A'}</p>
-             <p className="text-sm"><strong>Delivery Address:</strong> {order.deliveryAddress.street}, {order.deliveryAddress.city}</p>
+      <h1 className="text-2xl font-bold mb-4">Order Tracking</h1>
+      
+      {/* Order Status */}
+      <div className="bg-white rounded-lg shadow p-6 mb-6">
+          <div className="flex justify-between items-start mb-4">
+              <div>
+                  <h2 className="text-xl font-semibold">Order #{order.id.substring(0, 8)}...</h2>
+                  <p className="text-sm text-gray-500">Placed on: {new Date(order.orderDate).toLocaleString()}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  order.status === 'Delivered' ? 'bg-green-100 text-green-800' :
+                  order.status === 'Out for Delivery' ? 'bg-blue-100 text-blue-800' :
+                  'bg-gray-100 text-gray-800'
+              }`}>
+                  {order.status}
+              </span>
           </div>
 
-          {/* Map Placeholder */}
-          <div className="border rounded-lg p-4 bg-gray-100 shadow h-64 flex items-center justify-center">
-            <p className="text-gray-500">Live Map Placeholder</p>
-            {/* TODO: Integrate a map library (e.g., Leaflet, Google Maps) */}
+          {/* Delivery Partner Info (show only when out for delivery) */}
+          {order.status === 'Out for Delivery' && order.deliveryPartnerId && (
+              <div className="bg-blue-50 p-4 rounded-lg mb-4">
+                  <h3 className="font-medium mb-2">Delivery Partner Details</h3>
+                  <p className="text-sm">{order.deliveryPartnerName}</p>
+                  <p className="text-sm">Contact: {order.deliveryPartnerPhone}</p>
+              </div>
+          )}
+
+          {/* Order Timeline */}
+          <div className="mb-4">
+              <OrderTimeline events={generateMockEvents(order.status, order.orderDate)} />
           </div>
 
-           {/* Support Button */}
-           <button className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-              Need Help with this Order?
-           </button>
-        </div>
+          <p className="text-sm"><strong>Estimated Delivery:</strong> {order.estimatedDeliveryTime ? new Date(order.estimatedDeliveryTime).toLocaleTimeString() : 'N/A'}</p>
+          <p className="text-sm"><strong>Delivery Address:</strong> {order.deliveryAddress.street}, {order.deliveryAddress.city}</p>
       </div>
+
+      {/* Map Placeholder */}
+      <div className="border rounded-lg p-4 bg-gray-100 shadow h-64 flex items-center justify-center">
+          <p className="text-gray-500">Live Map Placeholder</p>
+      </div>
+
+      {/* Support Button */}
+      <button className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+          Need Help with this Order?
+      </button>
     </div>
   );
 };

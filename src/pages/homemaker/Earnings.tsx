@@ -62,7 +62,7 @@ const Earnings: React.FC = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar role="homemaker" />
-      <main className="flex-grow p-6 bg-gray-50">
+      <main className="flex-grow p-6 bg-gray-50 ml-64">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">Earnings</h1>
 
         {isLoading ? (

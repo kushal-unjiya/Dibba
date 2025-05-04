@@ -6,7 +6,7 @@ export interface CartItem {
   mealId: string;
   quantity: number;
   price: number;
-  mealDetails: Partial<Meal>;
+  mealDetails?: Partial<Meal>;
 }
 
 interface CartContextType {

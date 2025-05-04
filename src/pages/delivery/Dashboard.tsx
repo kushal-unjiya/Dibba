@@ -136,8 +136,9 @@ const Dashboard: React.FC = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar role="delivery" />
-      <main className="flex-grow p-6 bg-gray-100">
-        <div className="container mx-auto">
+      {/* Add pl-64 to account for the fixed sidebar width */}
+      <main className="flex-grow p-6 bg-gray-100 pl-64">
+        <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-gray-800">Delivery Dashboard</h1>
             <button
@@ -177,11 +178,11 @@ const Dashboard: React.FC = () => {
                   <div className="bg-white p-6 rounded-lg shadow text-center text-gray-500">
                     {isAvailable ? (
                       <>
-                        <p>You are online and available for new deliveries.</p>
-                        <p className="mt-2 text-sm">(Waiting for assignments...)</p>
+                        <p>No active delivery right now.</p>
+                        <p className="text-sm mt-2">Check the Available Orders section for new orders.</p>
                       </>
                     ) : (
-                      <p>You are currently offline.</p>
+                      <p>You are currently offline. Go online to start receiving orders.</p>
                     )}
                   </div>
                 )}

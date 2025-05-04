@@ -81,7 +81,8 @@ const RoleSelector: React.FC = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar role="homemaker" />
-      <main className="flex-grow p-6 bg-gray-50">
+      {/* Add pl-64 to account for the fixed sidebar width */}
+      <main className="flex-grow p-6 bg-gray-50 pl-64">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">Homemaker Dashboard</h1>
 
         {summaryData && (

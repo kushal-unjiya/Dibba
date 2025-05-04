@@ -15,19 +15,19 @@ const fetchMockAvailableOrders = (deliveryPartnerId: string): Promise<DeliveryOr
             id: 'ord9', customerId: 'cust222', homemakerId: 'hm1', items: [{ mealId: 'm2', quantity: 1, price: 120 }], totalAmount: 150, status: 'Ready for Pickup', orderDate: new Date(Date.now() - 3600000 * 3),
             deliveryAddress: { street: '333 Cedar Ave', city: 'Villagetown', postalCode: '54321' }, paymentMethod: 'COD', paymentStatus: 'Pending',
             pickupAddress: { street: '123 Cook St', city: 'Foodville', postalCode: '12345' },
-            customerName: 'Customer B', customerPhone: '555-1234'
+            customerName: 'Customer B', customerPhone: '555-1234', customerContact: '555-1234'
           },
           {
             id: 'ord11', customerId: 'cust444', homemakerId: 'hm3', items: [{ mealId: 'm4', quantity: 1, price: 80 }], totalAmount: 110, status: 'Ready for Pickup', orderDate: new Date(Date.now() - 3600000 * 1.5),
             deliveryAddress: { street: '555 Walnut Blvd', city: 'Otherville', postalCode: '67890' }, paymentMethod: 'UPI', paymentStatus: 'Completed',
             pickupAddress: { street: '789 Bake Ln', city: 'Otherville', postalCode: '67890' },
-            customerName: 'Customer C', customerPhone: '555-5678'
+            customerName: 'Customer C', customerPhone: '555-5678', customerContact: '555-5678'
           },
           {
             id: 'ord12', customerId: 'cust555', homemakerId: 'hm2', items: [{ mealId: 'm1', quantity: 2, price: 90 }], totalAmount: 200, status: 'Ready for Pickup', orderDate: new Date(Date.now() - 3600000 * 2),
             deliveryAddress: { street: '111 Pine St', city: 'Foodville', postalCode: '12345' }, paymentMethod: 'COD', paymentStatus: 'Pending',
             pickupAddress: { street: '456 Fry Rd', city: 'Foodville', postalCode: '12345' },
-            customerName: 'Customer D', customerPhone: '555-9012'
+            customerName: 'Customer D', customerPhone: '555-9012', customerContact: '555-9012'
           }
         ];
         resolve(mockOrders);
@@ -36,10 +36,18 @@ const fetchMockAvailableOrders = (deliveryPartnerId: string): Promise<DeliveryOr
 
 const acceptMockOrder = (orderId: string, deliveryPartnerId: string): Promise<void> => {
     console.log(`Delivery partner ${deliveryPartnerId} accepting order ${orderId}`);
-    // TODO: API call to assign order to partner
-    return new Promise((resolve) => setTimeout(resolve, 300));
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            // In a real app, this would:
+            // 1. Update order status to 'Out for Delivery'
+            // 2. Assign deliveryPartnerId to the order
+            // 3. Notify homemaker and customer
+            // 4. Update delivery partner's currentOrderId
+            console.log('Updating order status and notifying stakeholders');
+            resolve();
+        }, 300);
+    });
 };
-
 
 const OrderList: React.FC = () => {
   const { user } = useAuth();
@@ -50,6 +58,7 @@ const OrderList: React.FC = () => {
 
   useEffect(() => {
     let mounted = true;
+    const pollingInterval = 30000; // Poll every 30 seconds
     
     const fetchOrders = async () => {
       if (!user?.id || user.role !== 'delivery') return;
@@ -76,8 +85,12 @@ const OrderList: React.FC = () => {
 
     fetchOrders();
     
+    // Set up polling for new orders
+    const intervalId = setInterval(fetchOrders, pollingInterval);
+    
     return () => {
       mounted = false;
+      clearInterval(intervalId);
     };
   }, [user]);
 
@@ -92,7 +105,18 @@ const OrderList: React.FC = () => {
 
     try {
       await acceptMockOrder(orderId, user.id);
-      // Navigate to dashboard after successful acceptance
+      
+      // Update order status to 'Out for Delivery'
+      const updatedOrder = {
+          ...orderToAccept,
+          status: 'Out for Delivery',
+          deliveryPartnerId: user.id
+      };
+
+      // In a real app, this would be handled by WebSocket/real-time updates
+      console.log('Order status updated:', updatedOrder);
+      
+      // Navigate to dashboard to start delivery
       navigate('/delivery/dashboard');
     } catch (error) {
       console.error("Failed to accept order:", error);
@@ -137,14 +161,8 @@ const OrderList: React.FC = () => {
                 <div key={order.id} className="relative">
                   <DeliveryOrderCard
                     order={order}
-                    onUpdateStatus={undefined}
+                    onUpdateStatus={handleAcceptOrder}
                   />
-                  <button
-                    onClick={() => handleAcceptOrder(order.id)}
-                    className="absolute top-4 right-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-sm shadow"
-                  >
-                    Accept Order
-                  </button>
                 </div>
               ))}
             </div>

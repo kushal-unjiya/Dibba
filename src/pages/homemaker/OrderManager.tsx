@@ -25,11 +25,13 @@ const fetchMockHomemakerOrders = (homemakerId: string, statusFilter?: OrderStatu
 const updateMockOrderStatus = (orderId: string, newStatus: OrderStatus): Promise<Order> => {
     console.log(`Updating mock order ${orderId} to ${newStatus}`);
     return new Promise((resolve, reject) => {
-        // Simulate API call
         setTimeout(() => {
-            // Find the order (in a real scenario, the backend does this)
-            // For mock, just return a structure indicating success
-             resolve({ id: orderId, status: newStatus } as Order); // Return partial update
+            // Send notification if order is ready for pickup
+            if (newStatus === 'Ready for Pickup') {
+                // In a real app, this would trigger a WebSocket event or notification
+                console.log('Notifying delivery partners of new available order');
+            }
+            resolve({ id: orderId, status: newStatus } as Order);
         }, 300);
     });
 };
@@ -60,11 +62,21 @@ const OrderManager: React.FC = () => {
   const handleUpdateStatus = async (orderId: string, newStatus: OrderStatus) => {
     // Optimistic update
     const originalOrders = [...orders];
+    const orderToUpdate = orders.find(o => o.id === orderId);
+    
+    if (!orderToUpdate) return;
+
     setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
 
     try {
-      // TODO: Call API to update status
       await updateMockOrderStatus(orderId, newStatus);
+      
+      // If order becomes ready for pickup, make it available to delivery partners
+      if (newStatus === 'Ready for Pickup') {
+          // In a real app, this would update the central order database
+          console.log('Order is now available for delivery partners');
+      }
+
       // Optional: Refetch orders for the current filter if API doesn't return full updated object
       // or if optimistic update isn't sufficient (e.g., status change removes it from current filter)
        if (statusFilter && newStatus !== statusFilter) {

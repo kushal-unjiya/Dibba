@@ -72,85 +72,87 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Your Profile</h1>
-
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Sidebar/Tabs */}
-        <aside className="w-full md:w-1/4">
-          <div className="bg-white p-4 rounded-lg shadow sticky top-6">
-             {isLoadingProfile ? <p>Loading...</p> : (
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar role="customer" />
+      {/* Add pl-64 to account for the fixed sidebar width */}
+      <div className="flex-grow p-6 pl-64">
+        <div className="max-w-7xl mx-auto md:flex md:space-x-6">
+          {/* Sidebar/Navigation for Profile Sections */}
+          <aside className="w-full md:w-1/4 mb-6 md:mb-0">
+            <div className="bg-white p-4 rounded-lg shadow sticky top-6">
+              {isLoadingProfile ? <p>Loading...</p> : (
                 <div className="text-center mb-4">
-                    <img src={user.profilePictureUrl || `https://ui-avatars.com/api/?name=${customerDetails.name || user.email}&background=random`} alt="Profile" className="w-24 h-24 rounded-full mx-auto mb-2 border-2 border-amber-300"/>
-                    <h2 className="text-xl font-semibold">{customerDetails.name}</h2>
-                    <p className="text-sm text-gray-500">{customerDetails.email}</p>
-                    <p className="text-sm text-gray-500">{customerDetails.phone}</p>
+                  <img src={user.profilePictureUrl || `https://ui-avatars.com/api/?name=${customerDetails.name || user.email}&background=random`} alt="Profile" className="w-24 h-24 rounded-full mx-auto mb-2 border-2 border-amber-300"/>
+                  <h2 className="text-xl font-semibold">{customerDetails.name}</h2>
+                  <p className="text-sm text-gray-500">{customerDetails.email}</p>
+                  <p className="text-sm text-gray-500">{customerDetails.phone}</p>
                 </div>
-             )}
-            <nav className="space-y-1">
-              <button
-                onClick={() => setActiveTab('profile')}
-                className={`w-full text-left px-3 py-2 rounded ${activeTab === 'profile' ? 'bg-amber-100 text-amber-800 font-medium' : 'hover:bg-gray-100'}`}
-              >
-                Profile Details
-              </button>
-              <button
-                onClick={() => setActiveTab('orders')}
-                className={`w-full text-left px-3 py-2 rounded ${activeTab === 'orders' ? 'bg-amber-100 text-amber-800 font-medium' : 'hover:bg-gray-100'}`}
-              >
-                Order History
-              </button>
-              <button
-                onClick={() => setActiveTab('addresses')}
-                className={`w-full text-left px-3 py-2 rounded ${activeTab === 'addresses' ? 'bg-amber-100 text-amber-800 font-medium' : 'hover:bg-gray-100'}`}
-              >
-                Manage Addresses
-              </button>
-               <button
-                onClick={handleLogout}
-                className="w-full text-left px-3 py-2 rounded text-red-600 hover:bg-red-50"
-              >
-                Logout
-              </button>
-            </nav>
-          </div>
-        </aside>
+              )}
+              <nav className="space-y-1">
+                <button
+                  onClick={() => setActiveTab('profile')}
+                  className={`w-full text-left px-3 py-2 rounded ${activeTab === 'profile' ? 'bg-amber-100 text-amber-800 font-medium' : 'hover:bg-gray-100'}`}
+                >
+                  Profile Details
+                </button>
+                <button
+                  onClick={() => setActiveTab('orders')}
+                  className={`w-full text-left px-3 py-2 rounded ${activeTab === 'orders' ? 'bg-amber-100 text-amber-800 font-medium' : 'hover:bg-gray-100'}`}
+                >
+                  Order History
+                </button>
+                <button
+                  onClick={() => setActiveTab('addresses')}
+                  className={`w-full text-left px-3 py-2 rounded ${activeTab === 'addresses' ? 'bg-amber-100 text-amber-800 font-medium' : 'hover:bg-gray-100'}`}
+                >
+                  Manage Addresses
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-3 py-2 rounded text-red-600 hover:bg-red-50"
+                >
+                  Logout
+                </button>
+              </nav>
+            </div>
+          </aside>
 
-        {/* Main Content Area */}
-        <main className="w-full md:w-3/4">
-          <div className="bg-white p-6 rounded-lg shadow min-h-[300px]">
-            {activeTab === 'profile' && (
-              <div>
-                <h2 className="text-2xl font-semibold mb-4">Profile Details</h2>
-                {isLoadingProfile ? <p>Loading details...</p> : (
+          {/* Main Content Area */}
+          <main className="w-full md:w-3/4">
+            <div className="bg-white p-6 rounded-lg shadow min-h-[300px]">
+              {activeTab === 'profile' && (
+                <div>
+                  <h2 className="text-2xl font-semibold mb-4">Profile Details</h2>
+                  {isLoadingProfile ? <p>Loading details...</p> : (
                     <div className="space-y-3">
-                        <p><strong>Name:</strong> {customerDetails.name}</p>
-                        <p><strong>Email:</strong> {customerDetails.email}</p>
-                        <p><strong>Phone:</strong> {customerDetails.phone}</p>
-                        {/* Add form to edit details */}
-                        <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded text-sm">Edit Profile</button>
+                      <p><strong>Name:</strong> {customerDetails.name}</p>
+                      <p><strong>Email:</strong> {customerDetails.email}</p>
+                      <p><strong>Phone:</strong> {customerDetails.phone}</p>
+                      {/* Add form to edit details */}
+                      <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded text-sm">Edit Profile</button>
                     </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
 
-            {activeTab === 'orders' && (
-              <div>
-                 <h2 className="text-2xl font-semibold mb-4">Order History</h2>
-                 <OrderHistory orders={orders} isLoading={isLoadingOrders} />
-              </div>
-            )}
+              {activeTab === 'orders' && (
+                <div>
+                  <h2 className="text-2xl font-semibold mb-4">Order History</h2>
+                  <OrderHistory orders={orders} isLoading={isLoadingOrders} />
+                </div>
+              )}
 
-            {activeTab === 'addresses' && (
-              <div>
-                 <h2 className="text-2xl font-semibold mb-4">Manage Addresses</h2>
-                 {isLoadingProfile ? <p>Loading addresses...</p> : (
+              {activeTab === 'addresses' && (
+                <div>
+                  <h2 className="text-2xl font-semibold mb-4">Manage Addresses</h2>
+                  {isLoadingProfile ? <p>Loading addresses...</p> : (
                     <AddressList /> // Pass addresses and handlers from customerDetails if needed
-                 )}
-              </div>
-            )}
-          </div>
-        </main>
+                  )}
+                </div>
+              )}
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );

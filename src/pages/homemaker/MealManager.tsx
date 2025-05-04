@@ -144,7 +144,8 @@ const MealManager: React.FC = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar role="homemaker" />
-      <main className="flex-grow p-6 bg-gray-50">
+      {/* Add ml-64 here */}
+      <main className="flex-grow p-6 bg-gray-50 ml-64">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Meal Manager</h1>
           <button

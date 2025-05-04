@@ -2,32 +2,34 @@ import React from 'react';
 
 interface Review {
   id: string;
-  customerName: string; // Or customer ID to fetch name
+  customerId: string;
+  customerName: string;
+  orderId: string;
   rating: number;
   comment: string;
-  date: Date | string;
-  orderId?: string; // Optional link to the order
+  date: Date;
+  mealId?: string; // Optional - if review is for a specific meal
+  homemakerId?: string; // Optional - if review is for a homemaker
 }
 
 interface ReviewCardProps {
   review: Review;
+  variant?: 'compact' | 'detailed';
 }
 
 // Re-use star rendering helper if available, or define locally
 const renderStars = (rating: number) => {
   const fullStars = Math.floor(rating);
-  const halfStar = rating % 1 >= 0.5; // Simple half star logic
+  const halfStar = rating % 1 >= 0.5;
   const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
   return (
     <div className="flex items-center">
       {[...Array(fullStars)].map((_, i) => <span key={`full-${i}`} className="text-yellow-400 text-lg">★</span>)}
-      {/* Basic half star representation */}
       {halfStar && <span className="text-yellow-400 text-lg">★</span>}
       {[...Array(emptyStars)].map((_, i) => <span key={`empty-${i}`} className="text-gray-300 text-lg">★</span>)}
     </div>
   );
 };
-
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
   return (

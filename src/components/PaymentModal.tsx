@@ -19,25 +19,25 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, isSuccess,
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
             </svg>
           ) : (
-             <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-             </svg>
+            <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           )}
         </div>
-        <h3 className={`text-lg leading-6 font-medium ${isSuccess ? 'text-green-900' : 'text-red-900'}`}>
+        <h3 className={`text-lg font-medium mb-2 ${isSuccess ? 'text-green-800' : 'text-red-800'}`}>
           {isSuccess ? 'Payment Successful' : 'Payment Failed'}
         </h3>
-        <div className="mt-2 px-7 py-3">
-          <p className="text-sm text-gray-500">{message}</p>
-        </div>
-        <div className="items-center px-4 py-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300"
-          >
-            Close
-          </button>
-        </div>
+        <p className="text-gray-600 mb-4">{message}</p>
+        <button
+          onClick={onClose}
+          className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+            isSuccess ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'
+          } focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+            isSuccess ? 'focus:ring-green-500' : 'focus:ring-red-500'
+          }`}
+        >
+          {isSuccess ? 'Continue' : 'Try Again'}
+        </button>
       </div>
     </div>
   );

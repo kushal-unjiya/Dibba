@@ -1,11 +1,12 @@
 import React from 'react';
-import { Order, OrderStatus } from '../interfaces/Order'; // Use the main Order interface
+import { Link } from 'react-router-dom';
+import { Order, OrderStatus } from '../interfaces/Order';
 
 interface OrderCardProps {
   order: Order;
-  userRole: 'customer' | 'homemaker'; // To tailor actions/display
-  onUpdateStatus?: (orderId: string, newStatus: OrderStatus) => void; // For homemaker
-  onViewDetails?: (orderId: string) => void; // For both
+  userRole: 'customer' | 'homemaker';
+  onUpdateStatus?: (orderId: string, newStatus: OrderStatus) => void;
+  onViewDetails?: (orderId: string) => void;
 }
 
 // Helper to get status color
@@ -29,21 +30,23 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, userRole, onUpdateStatus, 
   const handleAccept = () => {
     if (onUpdateStatus) onUpdateStatus(order.id, 'Confirmed');
   };
+  
   const handleDecline = () => {
-     if (onUpdateStatus) onUpdateStatus(order.id, 'Declined');
+    if (onUpdateStatus) onUpdateStatus(order.id, 'Declined');
   };
-   const handleReady = () => {
-     if (onUpdateStatus) onUpdateStatus(order.id, 'Ready for Pickup');
+  
+  const handleReady = () => {
+    if (onUpdateStatus) onUpdateStatus(order.id, 'Ready for Pickup');
   };
 
   return (
     <div className="border rounded-lg p-4 mb-4 shadow bg-white">
       <div className="flex justify-between items-start mb-2">
         <div>
-            <h3 className="text-lg font-semibold">Order #{order.id.substring(0, 8)}...</h3>
-            <p className="text-sm text-gray-500">Placed on: {new Date(order.orderDate).toLocaleString()}</p>
-            {userRole === 'homemaker' && <p className="text-sm text-gray-600">Customer ID: {order.customerId.substring(0, 6)}...</p>}
-            {userRole === 'customer' && <p className="text-sm text-gray-600">Homemaker ID: {order.homemakerId.substring(0, 6)}...</p>}
+          <h3 className="text-lg font-semibold">Order #{order.id.substring(0, 8)}...</h3>
+          <p className="text-sm text-gray-500">Placed on: {new Date(order.orderDate).toLocaleString()}</p>
+          {userRole === 'homemaker' && <p className="text-sm text-gray-600">Customer ID: {order.customerId.substring(0, 6)}...</p>}
+          {userRole === 'customer' && <p className="text-sm text-gray-600">Homemaker ID: {order.homemakerId.substring(0, 6)}...</p>}
         </div>
         <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(order.status)}`}>
           {order.status}
@@ -58,30 +61,44 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, userRole, onUpdateStatus, 
       {/* Action Buttons */}
       <div className="flex justify-end space-x-2">
         {onViewDetails && (
-             <button onClick={() => onViewDetails(order.id)} className="text-blue-600 hover:underline text-sm">View Details</button>
+          <button onClick={() => onViewDetails(order.id)} className="text-blue-600 hover:underline text-sm">
+            View Details
+          </button>
         )}
 
         {/* Homemaker Actions */}
         {userRole === 'homemaker' && order.status === 'Pending Confirmation' && onUpdateStatus && (
           <>
-            <button onClick={handleAccept} className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded text-sm">Accept</button>
-            <button onClick={handleDecline} className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm">Decline</button>
+            <button onClick={handleAccept} className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded text-sm">
+              Accept
+            </button>
+            <button onClick={handleDecline} className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm">
+              Decline
+            </button>
           </>
         )}
-         {userRole === 'homemaker' && order.status === 'Confirmed' && onUpdateStatus && (
-             <button onClick={() => onUpdateStatus(order.id, 'Preparing')} className="bg-indigo-500 hover:bg-indigo-600 text-white py-1 px-3 rounded text-sm">Mark as Preparing</button>
-         )}
-          {userRole === 'homemaker' && order.status === 'Preparing' && onUpdateStatus && (
-             <button onClick={handleReady} className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded text-sm">Mark Ready for Pickup</button>
-         )}
+        {userRole === 'homemaker' && order.status === 'Confirmed' && onUpdateStatus && (
+          <button onClick={() => onUpdateStatus(order.id, 'Preparing')} className="bg-indigo-500 hover:bg-indigo-600 text-white py-1 px-3 rounded text-sm">
+            Mark as Preparing
+          </button>
+        )}
+        {userRole === 'homemaker' && order.status === 'Preparing' && onUpdateStatus && (
+          <button onClick={handleReady} className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded text-sm">
+            Mark Ready for Pickup
+          </button>
+        )}
 
-         {/* Customer Actions (e.g., Cancel, Track) */}
-         {userRole === 'customer' && (order.status === 'Pending Confirmation' || order.status === 'Confirmed') && (
-             <button className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm">Cancel Order</button> // Add cancel handler
-         )}
-          {userRole === 'customer' && !['Delivered', 'Cancelled', 'Declined'].includes(order.status) && (
-             <Link to={`/customer/tracking/${order.id}`} className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm">Track Order</Link>
-         )}
+        {/* Customer Actions */}
+        {userRole === 'customer' && (order.status === 'Pending Confirmation' || order.status === 'Confirmed') && (
+          <button className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm">
+            Cancel Order
+          </button>
+        )}
+        {userRole === 'customer' && !['Delivered', 'Cancelled', 'Declined'].includes(order.status) && (
+          <Link to={`/customer/tracking/${order.id}`} className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm">
+            Track Order
+          </Link>
+        )}
       </div>
     </div>
   );

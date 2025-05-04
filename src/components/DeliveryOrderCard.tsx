@@ -69,6 +69,7 @@ const DeliveryOrderCard: React.FC<DeliveryOrderCardProps> = ({ order, onUpdateSt
         <div className="space-y-1">
           <h4 className="font-medium text-gray-700">Deliver To:</h4>
           <p className="text-sm">{order.customerName}</p>
+          <p className="text-sm">{order.customerPhone}</p>
           <p className="text-sm">{order.deliveryAddress.street}</p>
           <p className="text-sm text-gray-600">
             {order.deliveryAddress.city}, {order.deliveryAddress.postalCode}

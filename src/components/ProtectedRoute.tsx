@@ -1,36 +1,42 @@
 import React from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext'; // Adjust path as needed
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { UserRole } from '../interfaces/User';
 
 interface ProtectedRouteProps {
-  allowedRoles: UserRole[];
+  children: React.ReactNode;
+  requiredRole?: UserRole;
+  redirectTo?: string;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
-  const { isAuthenticated, user, isLoading, role } = useAuth();
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  requiredRole,
+  redirectTo = '/'
+}) => {
+  const { user, loading } = useAuth();
   const location = useLocation();
 
-  if (isLoading) {
-    // Show a loading indicator while checking auth status
-    return <div>Loading...</div>; // Or a spinner component
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-amber-500"></div>
+      </div>
+    );
   }
 
-  if (!isAuthenticated) {
-    // Redirect to login page if not authenticated
-    // Pass the current location to redirect back after login
-    return <Navigate to="/login" state={{ from: location }} replace />;
+  if (!user) {
+    // Save the attempted url for redirecting after login
+    const loginRedirect = `${location.pathname}${location.search}`;
+    return <Navigate to={redirectTo} state={{ from: loginRedirect }} replace />;
   }
 
-  if (role && !allowedRoles.includes(role)) {
-    // Redirect to an unauthorized page or home page if role is not allowed
-    console.warn(`User role '${role}' not allowed for route ${location.pathname}. Allowed: ${allowedRoles.join(', ')}`);
-    // Redirect to a generic home or a specific unauthorized page
-    return <Navigate to="/" replace />; // Or to="/unauthorized"
+  if (requiredRole && user.role !== requiredRole) {
+    // User is logged in but doesn't have the required role
+    return <Navigate to={`/${user.role}/dashboard`} replace />;
   }
 
-  // If authenticated and role is allowed (or role check isn't needed), render the child routes
-  return <Outlet />;
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

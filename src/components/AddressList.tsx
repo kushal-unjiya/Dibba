@@ -1,19 +1,29 @@
 import React from 'react';
 
-interface AddressListProps {
-  // Define props if needed, e.g., list of addresses, functions to add/edit/delete
+interface Address {
+  id: string;
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  default: boolean;
 }
 
-const AddressList: React.FC<AddressListProps> = () => {
-  // Mock data or fetch from props/context
-  const addresses = ['123 Main St, Anytown', '456 Oak Ave, Otherville'];
+interface AddressListProps {
+  addresses: Address[];
+  onAddAddress?: (address: Omit<Address, 'id'>) => void;
+  onEditAddress?: (id: string, address: Omit<Address, 'id'>) => void;
+  onDeleteAddress?: (id: string) => void;
+  onSetDefault?: (id: string) => void;
+}
 
+const AddressList: React.FC<AddressListProps> = ({ addresses, onAddAddress, onEditAddress, onDeleteAddress, onSetDefault }) => {
   return (
     <div className="border rounded p-4">
       <h3 className="text-lg font-semibold mb-2">Manage Addresses</h3>
       {addresses.map((address, index) => (
         <div key={index} className="mb-2 p-2 border-b flex justify-between items-center">
-          <span>{address}</span>
+          <span>{address.street}, {address.city}</span>
           <div>
             <button className="text-blue-500 hover:text-blue-700 mr-2 text-sm">Edit</button>
             <button className="text-red-500 hover:text-red-700 text-sm">Delete</button>

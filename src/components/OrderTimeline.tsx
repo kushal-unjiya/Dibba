@@ -3,12 +3,12 @@ import { OrderStatus } from '../interfaces/Order';
 
 interface TimelineEvent {
   status: OrderStatus;
-  timestamp: Date | string;
+  timestamp: Date;
   description?: string;
 }
 
 interface OrderTimelineProps {
-  events: TimelineEvent[]; // Pass sorted events
+  events: TimelineEvent[];
   currentStatus: OrderStatus;
 }
 
@@ -24,7 +24,6 @@ const statusOrder: OrderStatus[] = [
 
 // Define statuses that represent cancellation/failure
 const endFailureStatuses: OrderStatus[] = ['Cancelled', 'Declined'];
-
 
 const OrderTimeline: React.FC<OrderTimelineProps> = ({ events, currentStatus }) => {
   const currentStatusIndex = statusOrder.indexOf(currentStatus);

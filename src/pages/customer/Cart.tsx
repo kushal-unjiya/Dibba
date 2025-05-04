@@ -4,6 +4,7 @@ import CartItem from '../../components/CartItem';
 import Checkout from '../../components/Checkout';
 import PaymentModal from '../../components/PaymentModal';
 import { useCart } from '../../contexts/CartContext'; // Import useCart hook
+import { OrderDetails } from '../../components/Checkout';
 
 const Cart: React.FC = () => {
   const { items, updateQuantity, removeFromCart, clearCart, totalAmount } = useCart(); // Use cart context
@@ -20,7 +21,7 @@ const Cart: React.FC = () => {
     removeFromCart(mealId);
   };
 
-  const handlePlaceOrder = (orderDetails: any) => {
+  const handlePlaceOrder = async (orderDetails: OrderDetails) => {
     console.log('Placing Order:', orderDetails);
     // TODO: Call API to place order
     // Simulate API response

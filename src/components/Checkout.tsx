@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 import { OrderItem } from '../interfaces/Order'; // Assuming OrderItem includes meal details or you fetch them
 
+interface OrderDetails {
+  customerDetails: {
+    name: string;
+    address: string;
+    phone: string;
+  };
+  items: OrderItem[];
+  totalAmount: number;
+  paymentMethod: 'UPI' | 'COD' | 'Card';
+}
+
 interface CheckoutProps {
   cartItems: OrderItem[];
   totalAmount: number;
-  onPlaceOrder: (orderDetails: any) => void; // Define a proper type for orderDetails
+  onPlaceOrder: (orderDetails: OrderDetails) => void;
 }
 
 const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalAmount, onPlaceOrder }) => {

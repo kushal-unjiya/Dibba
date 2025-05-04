@@ -1,43 +1,86 @@
 import React from 'react';
-// Consider using a charting library like Recharts or Chart.js
-// npm install recharts
-// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
-interface EarningsChartProps {
-  data: { name: string; earnings: number }[]; // Example data structure
+interface EarningData {
+  date: string;
+  amount: number;
 }
 
-const EarningsChart: React.FC<EarningsChartProps> = ({ data }) => {
-  // Placeholder if no chart library is installed/used yet
-  if (!data || data.length === 0) {
-    return <div className="p-4 border rounded text-center text-gray-500">No earnings data available for chart.</div>;
+interface EarningsChartProps {
+  data: EarningData[];
+  periodType: 'daily' | 'weekly' | 'monthly';
+  loading?: boolean;
+}
+
+const EarningsChart: React.FC<EarningsChartProps> = ({ 
+  data, 
+  periodType,
+  loading = false 
+}) => {
+  if (loading) {
+    return (
+      <div className="animate-pulse">
+        <div className="h-64 bg-gray-200 rounded"></div>
+      </div>
+    );
   }
 
-  // Basic representation without a library
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 rounded shadow-md border">
+          <p className="text-sm text-gray-600">{label}</p>
+          <p className="text-sm font-semibold text-amber-600">
+            ₹{payload[0].value.toFixed(2)}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className="p-4 border rounded shadow">
-      <h4 className="font-semibold mb-2">Earnings Trend (Placeholder)</h4>
-      <div className="space-y-1">
-        {data.map(item => (
-          <div key={item.name} className="flex justify-between text-sm">
-            <span>{item.name}</span>
-            <span>₹{item.earnings.toFixed(2)}</span>
-          </div>
-        ))}
-      </div>
-      {/* Replace above with actual chart component */}
-      {/* Example with Recharts (install first):
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
+    <div className="h-64 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="earnings" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <XAxis
+            dataKey="date"
+            tick={{ fill: '#4B5563' }}
+            tickLine={{ stroke: '#4B5563' }}
+          />
+          <YAxis
+            tick={{ fill: '#4B5563' }}
+            tickLine={{ stroke: '#4B5563' }}
+            tickFormatter={(value) => `₹${value}`}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Line
+            type="monotone"
+            dataKey="amount"
+            stroke="#D97706"
+            strokeWidth={2}
+            dot={{ fill: '#D97706', r: 4 }}
+            activeDot={{ r: 6, fill: '#92400E' }}
+          />
         </LineChart>
       </ResponsiveContainer>
-      */}
     </div>
   );
 };

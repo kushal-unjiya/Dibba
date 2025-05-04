@@ -4,7 +4,17 @@ import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext'; // Import useCart
 import { UserRole } from '../interfaces/User';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  hideCart?: boolean;
+  hideAuth?: boolean;
+  transparentBg?: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({
+  hideCart = false,
+  hideAuth = false,
+  transparentBg = false
+}) => {
   const { user, logout } = useAuth();
   const { totalItems } = useCart(); // Get cart items count from context
   const navigate = useNavigate();
@@ -12,9 +22,13 @@ const Header: React.FC = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Failed to logout:', error);
+    }
   };
 
   // Helper to get role-specific navigation links
@@ -63,7 +77,9 @@ const Header: React.FC = () => {
   const showAuthButtons = !user && !currentPathRole;
 
   return (
-    <header className="bg-white shadow-md">
+    <header className={`fixed top-0 left-0 right-0 z-50 ${
+      transparentBg ? 'bg-transparent' : 'bg-white shadow-sm'
+    }`}>
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo/Brand */}
@@ -93,7 +109,7 @@ const Header: React.FC = () => {
           {/* Right Section: Cart (for customers) & Profile */}
           <div className="flex items-center space-x-4">
             {/* Show cart only for customers */}
-            {effectiveRole === 'customer' && (
+            {effectiveRole === 'customer' && !hideCart && (
               <Link
                 to="/customer/cart"
                 className="relative p-2 text-gray-600 hover:text-amber-600"
@@ -121,76 +137,80 @@ const Header: React.FC = () => {
             )}
 
             {/* Auth Buttons or Profile Menu */}
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                  className="flex items-center space-x-2 text-gray-600 hover:text-amber-600 focus:outline-none"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                    {user.profilePictureUrl ? (
-                      <img
-                        src={user.profilePictureUrl}
-                        alt={user.name}
-                        className="w-8 h-8 rounded-full"
-                      />
-                    ) : (
-                      <span className="text-sm font-semibold">
-                        {user.name?.charAt(0).toUpperCase() || 'U'}
-                      </span>
-                    )}
-                  </div>
-                  <span className="hidden md:block">{user.name}</span>
-                </button>
-
-                {/* Profile Dropdown Menu */}
-                {isProfileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                    <Link
-                      to={`/${user.role}/profile`}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={() => setIsProfileMenuOpen(false)}
-                    >
-                      Your Profile
-                    </Link>
-                    {user.role === 'delivery' && (
-                      <Link
-                        to="/delivery/support"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setIsProfileMenuOpen(false)}
-                      >
-                        Support
-                      </Link>
-                    )}
+            {!hideAuth && (
+              <div>
+                {user ? (
+                  <div className="relative">
                     <button
-                      onClick={() => {
-                        setIsProfileMenuOpen(false);
-                        handleLogout();
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                      onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                      className="flex items-center space-x-2 text-gray-600 hover:text-amber-600 focus:outline-none"
                     >
-                      Logout
+                      <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                        {user.profilePictureUrl ? (
+                          <img
+                            src={user.profilePictureUrl}
+                            alt={user.name}
+                            className="w-8 h-8 rounded-full"
+                          />
+                        ) : (
+                          <span className="text-sm font-semibold">
+                            {user.name?.charAt(0).toUpperCase() || 'U'}
+                          </span>
+                        )}
+                      </div>
+                      <span className="hidden md:block">{user.name}</span>
                     </button>
+
+                    {/* Profile Dropdown Menu */}
+                    {isProfileMenuOpen && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                        <Link
+                          to={`/${user.role}/profile`}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileMenuOpen(false)}
+                        >
+                          Your Profile
+                        </Link>
+                        {user.role === 'delivery' && (
+                          <Link
+                            to="/delivery/support"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => setIsProfileMenuOpen(false)}
+                          >
+                            Support
+                          </Link>
+                        )}
+                        <button
+                          onClick={() => {
+                            setIsProfileMenuOpen(false);
+                            handleLogout();
+                          }}
+                          className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
                   </div>
+                ) : (
+                  showAuthButtons && (
+                    <div className="space-x-2">
+                      <Link
+                        to="/"
+                        className="px-4 py-2 text-amber-600 hover:text-amber-700 font-medium"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        to="/"
+                        className="px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600 font-medium"
+                      >
+                        Register
+                      </Link>
+                    </div>
+                  )
                 )}
               </div>
-            ) : (
-              showAuthButtons && (
-                <div className="space-x-2">
-                  <Link
-                    to="/"
-                    className="px-4 py-2 text-amber-600 hover:text-amber-700 font-medium"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/"
-                    className="px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600 font-medium"
-                  >
-                    Register
-                  </Link>
-                </div>
-              )
             )}
           </div>
         </div>

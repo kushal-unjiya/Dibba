@@ -18,13 +18,13 @@ const RoleSelector: React.FC = () => {
   const handleRoleSelection = (role: UserRole) => {
     switch (role) {
       case 'customer':
-        navigate('/customer/home');
+        navigate('/customer-auth');  // Changed to go through auth first
         break;
       case 'homemaker':
-        navigate('/homemaker-auth'); // Changed from '/homemaker-auth'
+        navigate('/homemaker-auth');
         break;
       case 'delivery':
-        navigate('/delivery-auth'); // Changed from '/delivery-auth'
+        navigate('/delivery-auth');
         break;
       default:
         console.error('Invalid role selected');

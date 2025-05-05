@@ -64,13 +64,13 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   };
 
   return (
-    <div className="w-64 bg-white h-screen shadow-lg"> {/* Removed fixed left-0 top-0 */}
+    <div className="fixed left-0 top-16 w-64 bg-white h-[calc(100vh-4rem)] shadow-lg z-40 overflow-y-auto">
       <div className="flex flex-col h-full">
         <div className="p-6">
           <h2 className="text-xl font-bold text-gray-800">{config.title}</h2>
         </div>
 
-        <nav className="flex-1 px-4 space-y-2">
+        <nav className="flex-1 px-4 space-y-2 pb-6">
           {config.links.map((link) => (
             <Link
               key={link.to}
@@ -89,14 +89,16 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
 
         <div className="p-4 border-t">
           <button
-            onClick={handleLogout} // Added onClick handler
-            className="w-full text-left px-4 py-2 rounded text-red-600 hover:bg-red-100 transition-colors duration-150"
+            onClick={handleLogout}
+            className="w-full px-4 py-2 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors flex items-center"
           >
+            <span className="mr-3">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </span>
             Logout
           </button>
-          <p className="text-xs text-gray-500 text-center">
-            © {new Date().getFullYear()} Dibba
-          </p>
         </div>
       </div>
     </div>

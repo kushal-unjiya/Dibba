@@ -1,8 +1,262 @@
 {
-  "users": [],
-  "homemakers": [],
-  "deliveryPartners": [],
-  "meals": [],
-  "orders": [],
-  "reviews": []
+  "users": [
+    {
+      "id": "d1",
+      "name": "",
+      "email": "vikram@example.com",
+      "role": "delivery",
+      "isAvailable": true,
+      "createdAt": "2025-05-04T20:45:53.609Z",
+      "password": "1"
+    },
+    {
+      "id": "h1",
+      "name": "",
+      "email": "sunita@example.com",
+      "role": "homemaker",
+      "kitchenName": "My Kitchen",
+      "address": {
+        "street": "",
+        "city": "",
+        "state": "",
+        "postalCode": ""
+      },
+      "isActive": true,
+      "createdAt": "2025-05-04T20:46:14.643Z",
+      "password": "1"
+    },
+    {
+      "id": "u2",
+      "email": "kushalunjiya02@gmail.com",
+      "password": "1",
+      "name": "K",
+      "role": "customer",
+      "createdAt": "2025-05-04T21:44:07.913Z",
+      "phone": "96",
+      "address": "qq"
+    }
+  ],
+  "meals": [
+    {
+      "id": "m1",
+      "name": "1",
+      "description": "1",
+      "price": 1,
+      "category": "Breakfast",
+      "dietary": "Veg",
+      "image": "",
+      "isAvailable": true,
+      "preparationTime": 30,
+      "servingSize": 1,
+      "rating": 0,
+      "allergens": [],
+      "homemakerId": "h1",
+      "createdAt": "2025-05-05T05:46:47.713Z",
+      "reviewCount": 0
+    },
+    {
+      "id": "m2",
+      "name": "roti",
+      "description": "roti",
+      "price": 10,
+      "category": "Lunch",
+      "dietary": "Non-Veg",
+      "image": "",
+      "isAvailable": true,
+      "preparationTime": 10,
+      "servingSize": 1,
+      "rating": 0,
+      "allergens": [],
+      "homemakerId": "h1",
+      "createdAt": "2025-05-05T08:33:23.698Z",
+      "reviewCount": 0
+    }
+  ],
+  "orders": [
+    {
+      "id": "o1",
+      "homemakerId": "h1",
+      "items": [
+        {
+          "mealId": "m1",
+          "price": 1
+        }
+      ],
+      "totalAmount": null,
+      "deliveryAddress": {
+        "street": "A-601 Gol Twins",
+        "city": "Rajkot",
+        "postalCode": "360004"
+      },
+      "paymentMethod": "COD",
+      "specialInstructions": "",
+      "customerId": "u2",
+      "status": "Delivered",
+      "orderDate": "2025-05-05T06:05:46.268Z",
+      "paymentStatus": "Pending",
+      "timeline": [
+        {
+          "status": "Pending Confirmation",
+          "timestamp": "2025-05-05T06:05:46.268Z"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2025-05-05T07:37:28.972Z"
+        },
+        {
+          "status": "Preparing",
+          "timestamp": "2025-05-05T07:37:30.401Z"
+        },
+        {
+          "status": "Ready for Pickup",
+          "timestamp": "2025-05-05T07:37:31.777Z"
+        }
+      ],
+      "deliveryPartnerId": "d1",
+      "deliveryStartTime": "2025-05-05T07:46:14.011Z"
+    },
+    {
+      "id": "o2",
+      "homemakerId": "h1",
+      "items": [
+        {
+          "mealId": "m1",
+          "quantity": 5,
+          "price": 1
+        }
+      ],
+      "totalAmount": 35,
+      "deliveryAddress": {
+        "street": "A-601 Gol Twins",
+        "city": "Rajkot",
+        "postalCode": "360004"
+      },
+      "paymentMethod": "COD",
+      "specialInstructions": "",
+      "customerId": "u2",
+      "status": "Delivered",
+      "orderDate": "2025-05-05T07:47:31.001Z",
+      "paymentStatus": "Pending",
+      "timeline": [
+        {
+          "status": "Pending Confirmation",
+          "timestamp": "2025-05-05T07:47:31.001Z"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2025-05-05T07:47:46.824Z"
+        },
+        {
+          "status": "Preparing",
+          "timestamp": "2025-05-05T07:47:47.397Z"
+        },
+        {
+          "status": "Ready for Pickup",
+          "timestamp": "2025-05-05T07:47:47.771Z"
+        }
+      ],
+      "deliveryPartnerId": "d1",
+      "deliveryStartTime": "2025-05-05T07:48:04.064Z"
+    },
+    {
+      "id": "o3",
+      "homemakerId": "h1",
+      "items": [
+        {
+          "mealId": "m2",
+          "quantity": null,
+          "price": 10
+        }
+      ],
+      "totalAmount": null,
+      "deliveryAddress": {
+        "street": "A-601 Gol Twins",
+        "city": "Rajkot",
+        "postalCode": "360004"
+      },
+      "paymentMethod": "COD",
+      "specialInstructions": "",
+      "customerId": "u2",
+      "status": "Delivered",
+      "orderDate": "2025-05-05T08:34:12.680Z",
+      "paymentStatus": "Pending",
+      "timeline": [
+        {
+          "status": "Pending Confirmation",
+          "timestamp": "2025-05-05T08:34:12.680Z"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2025-05-05T08:34:35.482Z"
+        },
+        {
+          "status": "Preparing",
+          "timestamp": "2025-05-05T08:34:39.806Z"
+        },
+        {
+          "status": "Ready for Pickup",
+          "timestamp": "2025-05-05T08:34:40.885Z"
+        }
+      ],
+      "deliveryPartnerId": "d1",
+      "deliveryStartTime": "2025-05-05T08:34:58.178Z"
+    }
+  ],
+  "carts": [
+    {
+      "userId": "u2",
+      "items": []
+    }
+  ],
+  "reviews": [],
+  "payouts": [
+    {
+      "id": "p1",
+      "userId": "h1",
+      "role": "homemaker",
+      "amount": 2500,
+      "status": "Completed",
+      "date": "2025-05-01T10:00:00Z",
+      "processedDate": "2025-05-02T15:30:00Z",
+      "bankDetails": {
+        "accountNumber": "XXXXXXXXXXXX1234",
+        "ifscCode": "SBIN0123456",
+        "accountHolderName": "John Doe"
+      }
+    },
+    {
+      "id": "p2",
+      "userId": "d1",
+      "role": "delivery",
+      "amount": 1200,
+      "status": "Processing",
+      "date": "2025-05-04T14:30:00Z",
+      "processedDate": null,
+      "bankDetails": {
+        "accountNumber": "XXXXXXXXXXXX5678",
+        "ifscCode": "HDFC0123456",
+        "accountHolderName": "Jane Smith"
+      }
+    }
+  ],
+  "delivery_stats": [],
+  "homemaker_stats": [],
+  "notifications": [],
+  "categories": [
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Snacks",
+    "Desserts",
+    "North Indian",
+    "South Indian",
+    "Chinese",
+    "Continental"
+  ],
+  "dietary_preferences": [
+    "Veg",
+    "Non-Veg",
+    "Vegan",
+    "Jain"
+  ]
 }

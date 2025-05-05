@@ -53,3 +53,10 @@ export interface Order {
   cancelReason?: string;
   refundStatus?: 'Pending' | 'Processed' | 'Completed';
 }
+
+// Added interface for tracking status changes
+export interface OrderStatusChange {
+  status: OrderStatus;
+  timestamp: Date;
+  description?: string; // Optional description for the status change
+}

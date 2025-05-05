@@ -30,27 +30,68 @@ server.use((req, res, next) => {
     const user = users.find(u => u.email === email && u.role === role);
     
     if (user) {
-      // Simulate successful login
-      const { id, name, email, role, profilePictureUrl } = user;
-      res.json({ 
-        user: { id, name, email, role, profilePictureUrl },
-        token: `fake-jwt-token-${id}-${role}`
+      const { password: _, ...userWithoutPassword } = user;
+      res.jsonp({
+        user: userWithoutPassword,
+        token: `fake-jwt-token-${user.id}-${role}`
       });
     } else {
-      res.status(400).json({ message: "Invalid credentials" });
+      res.status(400).jsonp({ message: "Invalid credentials" });
     }
     return;
   }
-  
-  // Continue to JSON Server router
+  next();
+});
+
+// Cart handling middleware
+server.use((req, res, next) => {
+  if (req.path.startsWith('/cart')) {
+    const db = router.db;
+    const userId = req.headers['user-id']; // You should get this from auth token in real app
+    
+    if (req.method === 'GET') {
+      const cart = db.get('cart').find({ userId }).value() || { items: [] };
+      return res.jsonp(cart);
+    }
+    
+    if (req.method === 'POST') {
+      const cart = db.get('cart').find({ userId }).value() || { userId, items: [] };
+      cart.items.push(req.body);
+      db.get('cart').upsert(cart).write();
+      return res.jsonp(cart);
+    }
+  }
+  next();
+});
+
+// Order handling middleware
+server.use((req, res, next) => {
+  if (req.path.startsWith('/orders')) {
+    const db = router.db;
+    const userId = req.headers['user-id']; // You should get this from auth token in real app
+    
+    if (req.method === 'POST') {
+      const order = {
+        id: Date.now().toString(),
+        userId,
+        ...req.body,
+        createdAt: new Date().toISOString()
+      };
+      db.get('orders').push(order).write();
+      
+      // Clear user's cart after successful order
+      db.get('cart').remove({ userId }).write();
+      
+      return res.jsonp(order);
+    }
+  }
   next();
 });
 
 // Use default router
-server.use('/api', router);
+server.use(router);
 
-// Start server
-const PORT = 3001;
-server.listen(PORT, () => {
-  console.log(`JSON Server is running on http://localhost:${PORT}`);
+const port = 3000;
+server.listen(port, () => {
+  console.log(`JSON Server is running on port ${port}`);
 });

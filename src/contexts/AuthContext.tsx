@@ -50,7 +50,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (email: string, password: string, role: UserRole) => {
     setIsLoading(true);
     try {
-      const { user, token } = await authAPI.login(email, password, role);
+      const response = await fetch('http://localhost:3001/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, role }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Login failed');
+      }
+
+      const { user, token } = await response.json();
       setUser(user);
       localStorage.setItem('authToken', token);
       localStorage.setItem('authUser', JSON.stringify(user));
@@ -65,23 +78,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const register = async (userData: Partial<User>, password: string) => {
     setIsLoading(true);
     try {
-      // Call the appropriate registration API based on the role
-      let response;
-      switch (userData.role) {
-        case 'customer':
-          response = await authAPI.registerCustomer({ ...userData, password });
-          break;
-        case 'homemaker':
-          response = await authAPI.registerHomemaker({ ...userData, password });
-          break;
-        case 'delivery':
-          response = await authAPI.registerDelivery({ ...userData, password });
-          break;
-        default:
-          throw new Error('Invalid role specified for registration');
+      const response = await fetch('http://localhost:3001/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...userData, password }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Registration failed');
       }
 
-      const { user, token } = response;
+      const { user, token } = await response.json();
       setUser(user);
       localStorage.setItem('authToken', token);
       localStorage.setItem('authUser', JSON.stringify(user));

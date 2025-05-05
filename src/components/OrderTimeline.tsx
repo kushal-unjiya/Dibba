@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { OrderStatus } from '../interfaces/Order';
 
 interface TimelineEvent {
@@ -10,6 +10,8 @@ interface TimelineEvent {
 interface OrderTimelineProps {
   events: TimelineEvent[];
   currentStatus: OrderStatus;
+  onStatusUpdate?: (newStatus: OrderStatus) => void;
+  isHomemaker?: boolean;
 }
 
 // Define the order of statuses for the timeline
@@ -25,7 +27,12 @@ const statusOrder: OrderStatus[] = [
 // Define statuses that represent cancellation/failure
 const endFailureStatuses: OrderStatus[] = ['Cancelled', 'Declined'];
 
-const OrderTimeline: React.FC<OrderTimelineProps> = ({ events, currentStatus }) => {
+const OrderTimeline: React.FC<OrderTimelineProps> = ({ 
+  events, 
+  currentStatus, 
+  onStatusUpdate,
+  isHomemaker = false 
+}) => {
   const currentStatusIndex = statusOrder.indexOf(currentStatus);
   const isFailed = endFailureStatuses.includes(currentStatus);
 
@@ -43,6 +50,7 @@ const OrderTimeline: React.FC<OrderTimelineProps> = ({ events, currentStatus }) 
           const isActive = index === currentStatusIndex && !isFailed;
           const isCompleted = index < currentStatusIndex && !isFailed;
           const timestamp = getTimestampForStatus(status);
+          const canUpdate = isHomemaker && index === currentStatusIndex + 1 && !isFailed;
 
           // Don't show future steps unless the order is failed/cancelled
           if (!isFailed && !isCompleted && !isActive && !timestamp) {
@@ -51,15 +59,39 @@ const OrderTimeline: React.FC<OrderTimelineProps> = ({ events, currentStatus }) 
 
           return (
             <li key={status} className="mb-6 ml-6">
-              <span className={`absolute flex items-center justify-center w-6 h-6 rounded-full -left-3 ring-4 ring-white ${
-                isCompleted ? 'bg-green-500' : isActive ? 'bg-blue-500 animate-pulse' : 'bg-gray-300'
-              }`}>
+              <span 
+                className={`absolute flex items-center justify-center w-6 h-6 rounded-full -left-3 ring-4 ring-white 
+                  ${isCompleted ? 'bg-green-500' : isActive ? 'bg-blue-500 animate-pulse' : 'bg-gray-300'}
+                  ${canUpdate ? 'cursor-pointer hover:bg-blue-600' : ''}`}
+                onClick={() => canUpdate && onStatusUpdate?.(status)}
+              >
                 {/* Optional: Add icons */}
-                {isCompleted && <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>}
+                {isCompleted && (
+                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                )}
               </span>
-              <h4 className={`font-semibold ${isCompleted || isActive ? 'text-gray-900' : 'text-gray-500'}`}>{status}</h4>
-              {timestamp && <time className="block mb-2 text-xs font-normal leading-none text-gray-500">{timestamp}</time>}
-              {/* Add description from event if available */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className={`font-semibold ${isCompleted || isActive ? 'text-gray-900' : 'text-gray-500'}`}>
+                    {status}
+                  </h4>
+                  {timestamp && (
+                    <time className="block mb-2 text-xs font-normal leading-none text-gray-500">
+                      {timestamp}
+                    </time>
+                  )}
+                </div>
+                {canUpdate && (
+                  <button 
+                    className="ml-4 px-3 py-1 text-sm text-blue-600 hover:text-blue-800 rounded-md hover:bg-blue-50"
+                    onClick={() => onStatusUpdate?.(status)}
+                  >
+                    Update to {status}
+                  </button>
+                )}
+              </div>
             </li>
           );
         })}

@@ -79,38 +79,39 @@ const RoleSelector: React.FC = () => {
    }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <Sidebar role="homemaker" />
-      {/* Add pl-64 to account for the fixed sidebar width */}
-      <main className="flex-grow p-6 bg-gray-50 pl-64">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">Homemaker Dashboard</h1>
+      <div className="pl-64 pt-4">
+        <main className="p-6">
+          <h1 className="text-3xl font-bold mb-6 text-gray-800">Homemaker Dashboard</h1>
 
-        {summaryData && (
-          <EarningsSummary
-            totalEarnings={summaryData.totalEarnings}
-            pendingPayout={summaryData.pendingPayout}
-            lastPayoutDate={summaryData.lastPayoutDate}
-          />
-        )}
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-700">Recent Orders</h2>
-          {recentOrders.length > 0 ? (
-            <div className="space-y-4">
-              {recentOrders.map(order => (
-                <OrderCard
-                  key={order.id}
-                  order={order}
-                  userRole="homemaker"
-                  onUpdateStatus={handleUpdateOrderStatus}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500">No recent orders found.</p>
+          {summaryData && (
+            <EarningsSummary
+              totalEarnings={summaryData.totalEarnings}
+              pendingPayout={summaryData.pendingPayout}
+              lastPayoutDate={summaryData.lastPayoutDate}
+            />
           )}
-        </section>
-      </main>
+
+          <section>
+            <h2 className="text-2xl font-semibold mb-4 text-gray-700">Recent Orders</h2>
+            {recentOrders.length > 0 ? (
+              <div className="space-y-4">
+                {recentOrders.map(order => (
+                  <OrderCard
+                    key={order.id}
+                    order={order}
+                    userRole="homemaker"
+                    onUpdateStatus={handleUpdateOrderStatus}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500">No recent orders found.</p>
+            )}
+          </section>
+        </main>
+      </div>
     </div>
   );
 };

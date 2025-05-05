@@ -18,10 +18,25 @@ const Menu: React.FC = () => {
   const { addToCart } = useCart(); // Get addToCart function from cart context
 
   // Filter states
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(searchParams.get('category'));
-  const [selectedDietary, setSelectedDietary] = useState<string | null>(searchParams.get('dietary'));
-  const [selectedSort, setSelectedSort] = useState<string | null>(searchParams.get('sort'));
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedDietary, setSelectedDietary] = useState<string[]>([]);
+  const [selectedSort, setSelectedSort] = useState<string>('');
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('q') || '');
+
+  const mockCategories: FilterOption[] = [
+    { value: 'breakfast', label: 'Breakfast' },
+    { value: 'lunch', label: 'Lunch' },
+    { value: 'dinner', label: 'Dinner' },
+    { value: 'snacks', label: 'Snacks' }
+  ];
+
+  const mockDietaryPreferences: FilterOption[] = [
+    { value: 'veg', label: 'Vegetarian' },
+    { value: 'nonveg', label: 'Non-Vegetarian' },
+    { value: 'vegan', label: 'Vegan' },
+    { value: 'glutenFree', label: 'Gluten Free' }
+  ];
 
   useEffect(() => {
     // Fetch meals from API
@@ -58,8 +73,8 @@ const Menu: React.FC = () => {
     }
 
     // Filter by dietary preference
-    if (selectedDietary) {
-      result = result.filter(meal => meal.dietary === selectedDietary);
+    if (selectedDietary.length > 0) {
+      result = result.filter(meal => selectedDietary.includes(meal.dietary));
     }
 
     // Sort results
@@ -79,7 +94,7 @@ const Menu: React.FC = () => {
     // Update URL search params
     const params: Record<string, string> = {};
     if (selectedCategory) params.category = selectedCategory;
-    if (selectedDietary) params.dietary = selectedDietary;
+    if (selectedDietary.length > 0) params.dietary = selectedDietary.join(',');
     if (selectedSort) params.sort = selectedSort;
     if (searchQuery) params.q = searchQuery;
     setSearchParams(params, { replace: true });
@@ -96,6 +111,10 @@ const Menu: React.FC = () => {
     setSearchQuery(query);
   };
 
+  const handleDietaryChange = (dietary: string[]) => {
+    setSelectedDietary(dietary);
+  };
+
   return (
     <div className="container mx-auto px-4 py-6">
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Our Menu</h1>
@@ -109,9 +128,17 @@ const Menu: React.FC = () => {
             selectedCategory={selectedCategory}
             selectedDietary={selectedDietary}
             selectedSort={selectedSort}
+            priceRange={priceRange}
+            dietaryPreferences={mockDietaryPreferences}
             onCategoryChange={setSelectedCategory}
-            onDietaryChange={setSelectedDietary}
-            onSortChange={setSelectedSort}
+            onDietaryChange={handleDietaryChange}
+            onPriceRangeChange={setPriceRange}
+            onReset={() => {
+              setSelectedCategory('');
+              setSelectedDietary([]);
+              setSelectedSort('');
+              setPriceRange([0, 1000]);
+            }}
           />
         </aside>
 

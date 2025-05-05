@@ -25,37 +25,42 @@ const getStatusColor = (status: OrderStatus): string => {
 };
 
 const OrderCard: React.FC<OrderCardProps> = ({ order, userRole, onUpdateStatus, onViewDetails }) => {
-  const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = order.items?.reduce((sum, item) => sum + item.quantity, 0) || 0; // Add safe check for items array
 
   const handleAccept = () => {
     if (onUpdateStatus) onUpdateStatus(order.id, 'Confirmed');
   };
-  
+
   const handleDecline = () => {
     if (onUpdateStatus) onUpdateStatus(order.id, 'Declined');
   };
-  
+
   const handleReady = () => {
     if (onUpdateStatus) onUpdateStatus(order.id, 'Ready for Pickup');
   };
+
+  // Safely format total amount, defaulting to 0.00 if null or undefined
+  const formattedTotalAmount = (typeof order.totalAmount === 'number')
+    ? order.totalAmount.toFixed(2)
+    : '0.00';
 
   return (
     <div className="border rounded-lg p-4 mb-4 shadow bg-white">
       <div className="flex justify-between items-start mb-2">
         <div>
-          <h3 className="text-lg font-semibold">Order #{order.id.substring(0, 8)}...</h3>
-          <p className="text-sm text-gray-500">Placed on: {new Date(order.orderDate).toLocaleString()}</p>
-          {userRole === 'homemaker' && <p className="text-sm text-gray-600">Customer ID: {order.customerId.substring(0, 6)}...</p>}
-          {userRole === 'customer' && <p className="text-sm text-gray-600">Homemaker ID: {order.homemakerId.substring(0, 6)}...</p>}
+          <h3 className="text-lg font-semibold">Order #{order.id?.substring(0, 8) || 'N/A'}...</h3>
+          <p className="text-sm text-gray-500">Placed on: {order.orderDate ? new Date(order.orderDate).toLocaleString() : 'N/A'}</p>
+          {userRole === 'homemaker' && <p className="text-sm text-gray-600">Customer ID: {order.customerId?.substring(0, 6) || 'N/A'}...</p>}
+          {userRole === 'customer' && <p className="text-sm text-gray-600">Homemaker ID: {order.homemakerId?.substring(0, 6) || 'N/A'}...</p>}
         </div>
         <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(order.status)}`}>
-          {order.status}
+          {order.status || 'Unknown'}
         </span>
       </div>
       <div className="text-sm text-gray-700 mb-3">
         <p><strong>Items:</strong> {totalItems}</p>
-        <p><strong>Total:</strong> ₹{order.totalAmount.toFixed(2)}</p>
-        <p><strong>Address:</strong> {order.deliveryAddress.street}, {order.deliveryAddress.city}</p>
+        <p><strong>Total:</strong> ₹{formattedTotalAmount}</p> {/* Use the safe formatted value */}
+        <p><strong>Address:</strong> {order.deliveryAddress?.street || 'N/A'}, {order.deliveryAddress?.city || 'N/A'}</p>
       </div>
 
       {/* Action Buttons */}

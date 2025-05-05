@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// Removed MealDietaryType import, use Meal['dietary'] instead
 import { Meal } from '../interfaces/Meal';
 
 interface MealFormProps {
@@ -33,10 +34,8 @@ const MealForm: React.FC<MealFormProps> = ({
 
   useEffect(() => {
     if (initialMeal) {
-      setFormData(prev => ({
-        ...prev,
-        ...initialMeal
-      }));
+      const updatedFormData = { ...formData, ...initialMeal };
+      setFormData(updatedFormData);
       if (initialMeal.image) {
         setImagePreview(initialMeal.image);
       }
@@ -62,11 +61,13 @@ const MealForm: React.FC<MealFormProps> = ({
       newErrors.category = 'Category is required';
     }
     
-    if (formData.preparationTime <= 0) {
+    // Check if preparationTime is defined and greater than 0
+    if (formData.preparationTime === undefined || formData.preparationTime <= 0) {
       newErrors.preparationTime = 'Preparation time must be greater than 0';
     }
     
-    if (formData.servingSize <= 0) {
+    // Check if servingSize is defined and greater than 0
+    if (formData.servingSize === undefined || formData.servingSize <= 0) {
       newErrors.servingSize = 'Serving size must be greater than 0';
     }
 
@@ -166,7 +167,8 @@ const MealForm: React.FC<MealFormProps> = ({
             <label className="block text-sm font-medium text-gray-700">Dietary Type</label>
             <select
               value={formData.dietary}
-              onChange={(e) => setFormData(prev => ({ ...prev, dietary: e.target.value }))}
+              // Use Meal['dietary'] for the type cast
+              onChange={(e) => setFormData(prev => ({ ...prev, dietary: e.target.value as Meal['dietary'] }))}
               className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
             >
               <option value="Veg">Vegetarian</option>

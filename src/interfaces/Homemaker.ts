@@ -4,7 +4,8 @@ import { Address } from './Order';
 export interface BankDetails {
   accountNumber: string;
   ifscCode: string;
-  accountHolderName: string;
+  accountHolderName: string; // Changed from accountHolder
+  bankName?: string;
   upiId?: string;
 }
 
@@ -44,10 +45,8 @@ export interface Homemaker extends User {
   address: Address;
   profileImage?: string;
   kitchenImages?: string[];
-  certificates?: {
-    fssai?: string;
-    otherCertificates?: string[];
-  };
+  fssaiLicense?: string; // Moved from certificates
+  otherCertificates?: string[]; // Moved from certificates
   specialties?: string[];
   cuisineTypes?: string[];
   isVerified: boolean;
@@ -55,12 +54,7 @@ export interface Homemaker extends User {
   ratings: HomemakerRating;
   stats: HomemakerStats;
   schedule: HomemakerSchedule[];
-  bankDetails?: {
-    accountHolder: string;
-    accountNumber: string;
-    ifscCode: string;
-    bankName: string;
-  };
+  bankDetails?: BankDetails; // Use the updated BankDetails interface
   documents?: {
     idProof?: string;
     addressProof?: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from '../../components/Sidebar'; // Adjust path
+// import Sidebar from '../../components/Sidebar'; // Adjust path
 import { useAuth } from '../../contexts/AuthContext'; // Adjust path
 
 const DeliverySupport: React.FC = () => {
@@ -11,8 +11,9 @@ const DeliverySupport: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar role="delivery" />
-      <main className="flex-grow p-6 bg-gray-100 ml-64">
+      {/* <Sidebar role="delivery" /> */}
+      {/* Adjusted: Removed ml-64 */}
+      <main className="flex-grow p-6 bg-gray-100">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">Support Center</h1>
 
         <div className="bg-white p-6 rounded-lg shadow space-y-6">

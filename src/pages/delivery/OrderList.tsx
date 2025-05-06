@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../../components/Sidebar';
 import DeliveryOrderCard from '../../components/DeliveryOrderCard';
 import { DeliveryOrder } from '../../interfaces/DeliveryOrder';
 import { useAuth } from '../../contexts/AuthContext';
@@ -61,9 +60,8 @@ const OrderList: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar role="delivery" />
       <main className="flex-grow p-6 bg-gray-100">
-        <div className="container mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-6 text-gray-800">Available Orders</h1>
 
           {isLoading ? (

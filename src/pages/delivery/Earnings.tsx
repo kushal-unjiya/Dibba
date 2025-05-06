@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar';
+// import Sidebar from '../../components/Sidebar';
 import EarningsSummary from '../../components/EarningsSummary';
 import EarningsChart from '../../components/EarningsChart';
 import { useAuth } from '../../contexts/AuthContext';
@@ -80,15 +80,34 @@ const DeliveryEarnings: React.FC = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen">
+        {/* <Sidebar role="delivery" /> */}
+        <main className="flex-grow p-6 bg-gray-100 text-center">Loading earnings data...</main>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen">
+        {/* <Sidebar role="delivery" /> */}
+        <main className="flex-grow p-6 bg-gray-100 text-center text-red-500">Error: {error}</main>
+      </div>
+    );
+  }
+
   if (!user || user.role !== 'delivery') {
     return <div className="p-6 text-center">Access Denied. Please log in as a Delivery Partner.</div>;
   }
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar role="delivery" />
-      <main className="flex-grow p-6 bg-gray-100">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">Earnings</h1>
+    <div className="flex min-h-screen bg-gray-50">
+      {/* <Sidebar role="delivery" /> */}
+      {/* Adjust main content padding/margin if sidebar was fixed width */}
+      <main className="flex-grow p-6">
+        <h1 className="text-3xl font-bold mb-6 text-gray-800">Delivery Earnings</h1>
 
         {isLoading ? (
           <div className="text-center py-8">

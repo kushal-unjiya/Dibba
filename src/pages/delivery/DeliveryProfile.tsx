@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar';
 import { useAuth } from '../../contexts/AuthContext';
 import { DeliveryPartner } from '../../interfaces/DeliveryPartner';
 import { usersAPI } from '../../services/api';
@@ -89,7 +88,6 @@ const DeliveryProfile: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar role="delivery" />
       <main className="flex-grow p-6 bg-gray-100">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Your Profile</h1>

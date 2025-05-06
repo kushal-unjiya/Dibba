@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar';
 import DeliveryOrderCard from '../../components/DeliveryOrderCard';
 import { DeliveryOrder } from '../../interfaces/DeliveryOrder';
 import { OrderStatus } from '../../interfaces/Order';
@@ -100,8 +99,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Sidebar role="delivery" />
-      <div className="pl-64 pt-4">
+      <div className="pt-4">
         <main className="p-6">
           <div className="max-w-4xl mx-auto">
             <div className="flex justify-between items-center mb-6">

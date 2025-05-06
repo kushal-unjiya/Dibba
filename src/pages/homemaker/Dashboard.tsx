@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../../components/Sidebar'; // Adjust path
+// import Sidebar from '../../components/Sidebar'; // Adjust path
 import EarningsSummary from '../../components/EarningsSummary'; // Adjust path
 import OrderCard from '../../components/OrderCard'; // Adjust path
 import { Order } from '../../interfaces/Order'; // Adjust path
@@ -45,8 +45,8 @@ const RoleSelector: React.FC = () => {
   }, [user]);
 
   const handleUpdateOrderStatus = (orderId: string, newStatus: Order['status']) => {
-     console.log(`Updating order ${orderId} to ${newStatus}`);
-     setRecentOrders(prev => prev.map(o => o.id === orderId ? {...o, status: newStatus} : o));
+    console.log(`Updating order ${orderId} to ${newStatus}`);
+    setRecentOrders(prev => prev.map(o => o.id === orderId ? {...o, status: newStatus} : o));
   };
 
   const handleRoleSelection = (role: UserRole) => {
@@ -68,7 +68,7 @@ const RoleSelector: React.FC = () => {
   if (isLoading) {
       return (
           <div className="flex">
-              <Sidebar role="homemaker" />
+              {/* <Sidebar role="homemaker" /> */}
               <main className="flex-grow p-6 bg-gray-100">Loading dashboard...</main>
           </div>
       );
@@ -80,8 +80,9 @@ const RoleSelector: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Sidebar role="homemaker" />
-      <div className="pl-64 pt-4">
+      {/* <Sidebar role="homemaker" /> */}
+      {/* Adjusted: Removed pl-64 */}
+      <div className="pt-4">
         <main className="p-6">
           <h1 className="text-3xl font-bold mb-6 text-gray-800">Homemaker Dashboard</h1>
 

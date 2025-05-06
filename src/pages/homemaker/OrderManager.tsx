@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar';
 import OrderCard from '../../components/OrderCard';
 import { Order, OrderStatus } from '../../interfaces/Order';
 import { useAuth } from '../../contexts/AuthContext';
@@ -84,7 +83,6 @@ const OrderManager: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar role="homemaker" />
       <main className="flex-grow p-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-6">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar'; // Adjust path
+// import Sidebar from '../../components/Sidebar'; // Adjust path
 import { useAuth } from '../../contexts/AuthContext'; // Adjust path
 import { Homemaker, BankDetails } from '../../interfaces/Homemaker'; // Adjust path
 import { Address } from '../../interfaces/Order'; // Adjust path
@@ -139,8 +139,9 @@ const HomemakerProfile: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar role="homemaker" />
-      <main className="flex-grow p-6 bg-gray-50 ml-64">
+      {/* <Sidebar role="homemaker" /> */}
+      {/* Adjusted: Removed ml-64 */}
+      <main className="flex-grow p-6 bg-gray-50">
         <div className="flex justify-between items-center mb-6">
              <h1 className="text-3xl font-bold text-gray-800">Your Profile</h1>
              {!isEditing && profile && (

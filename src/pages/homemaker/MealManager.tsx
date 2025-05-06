@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar';
 import MealForm from '../../components/MealForm';
 import MealList from '../../components/MealList';
 import { Meal } from '../../interfaces/Meal';
@@ -103,7 +102,7 @@ const MealManager: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar role="homemaker" />
+      {/* Adjusted: Removed ml-64 */}
       <main className="flex-grow p-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-6">

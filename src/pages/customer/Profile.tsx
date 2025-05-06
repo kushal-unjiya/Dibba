@@ -73,9 +73,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Sidebar role="customer" />
-      {/* Add pl-64 to account for the fixed sidebar width */}
-      <div className="flex-grow p-6 pl-64">
+      <div className="flex-grow p-6">
         <div className="max-w-7xl mx-auto md:flex md:space-x-6">
           {/* Sidebar/Navigation for Profile Sections */}
           <aside className="w-full md:w-1/4 mb-6 md:mb-0">

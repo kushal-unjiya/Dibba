@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar'; // Adjust path
 import ReviewCard from '../../components/ReviewCard'; // Adjust path
 import { useAuth } from '../../contexts/AuthContext'; // Adjust path
 
@@ -58,7 +57,6 @@ const Feedback: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar role="homemaker" />
       <main className="flex-grow p-6 bg-gray-50">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">Ratings & Feedback</h1>
 
